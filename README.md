@@ -9,7 +9,7 @@ For now, just download from [here](https://github.com/Mister-SOSA/ValAgents.py/r
 
 ## 🔧 Usage Examples
 
-###**Print a dictionary with every sentinel as the key, and their respective UUID as the value**
+### **Print a dictionary with every sentinel as the key, and their respective UUID as the value**
 
 ```py
 import ValAgents as agents
@@ -23,7 +23,7 @@ print(sentinels)
 {'Killjoy': '1e58de9c-4950-5125-93e9-a0aee9f98746', 'Cypher': '117ed9e3-49f3-6512-3ccf-0cada7e3823b', 'Sage': '569fdd95-4d10-43ab-ca70-79becc718b46'}
 ```
 
-###**Print Jett's UUID**
+### **Print Jett's UUID**
 
 ```py
 import ValAgents as agents
@@ -37,7 +37,7 @@ print(jett_uuid)
 add6443a-41bd-e414-f6ad-e58d267f4e9
 ```
 
-###**Print a list of all the agents alphabetically**
+### **Print a list of all the agents alphabetically**
 
 ```py
 import ValAgents as agents
