@@ -18,7 +18,9 @@ print(sentinels)
 ```
 
 will print a dictionary with each sentinel's name as the key, and their UUID as the value:
-```{'Killjoy': '1e58de9c-4950-5125-93e9-a0aee9f98746', 'Cypher': '117ed9e3-49f3-6512-3ccf-0cada7e3823b', 'Sage': '569fdd95-4d10-43ab-ca70-79becc718b46'}```
+```py
+{'Killjoy': '1e58de9c-4950-5125-93e9-a0aee9f98746', 'Cypher': '117ed9e3-49f3-6512-3ccf-0cada7e3823b', 'Sage': '569fdd95-4d10-43ab-ca70-79becc718b46'}
+```
 
 
 ```py
@@ -29,7 +31,9 @@ jett_uuid = agents.deulists().get('Jett')
 print(jett_uuid)
 ```
 will print Jett's UUID as a string:
-```add6443a-41bd-e414-f6ad-e58d267f4e9```
+```
+add6443a-41bd-e414-f6ad-e58d267f4e9
+```
 
 
 ```py
@@ -42,7 +46,9 @@ all_agents.sort() # sort the agents alphabetically
 print(all_agents)
 ```
 Will print a list with all the agents in alphabetical order:
-```['Astra', 'Breach', 'Brimstone', 'Cypher', 'Jett', 'KAY/O', 'Killjoy', 'Omen', 'Phoenix', 'Raze', 'Reyna', 'Sage', 'Skye', 'Sova', 'Viper', 'Yoru']```
+```py
+['Astra', 'Breach', 'Brimstone', 'Cypher', 'Jett', 'KAY/O', 'Killjoy', 'Omen', 'Phoenix', 'Raze', 'Reyna', 'Sage', 'Skye', 'Sova', 'Viper', 'Yoru']
+```
 
 
 ## 🤝 Contributing
