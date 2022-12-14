@@ -1,74 +1,115 @@
-""" Dictionaries of all VALORANT agents with their respective UUIDs, categorized by role. """
+"""A simple Python module for retrieving Valorant agent data from the Riot Games API."""
+import requests
 
-list_all_agents = {
-    "Jett" : "add6443a-41bd-e414-f6ad-e58d267f4e95",
-    "Reyna" : "a3bfb853-43b2-7238-a4f1-ad90e9e46bcc",
-    "Raze" : "f94c3b30-42be-e959-889c-5aa313dba261",
-    "Yoru" : "7f94d92c-4234-0a36-9646-3a87eb8b5c89",
-    "Phoenix" : "eb93336a-449b-9c1b-0a54-a891f7921d69",
-    "Neon" : "bb2a4828-46eb-8cd1-e765-15848195d751",
-    "Breach" : "5f8d3a7f-467b-97f3-062c-13acf203c006",
-    "Skye" : "6f2a04ca-43e0-be17-7f36-b3908627744d",
-    "Sova" : "320b2a48-4d9b-a075-30f1-1f93a9b638fa",
-    "KAY/O" : "601dbbe7-43ce-be57-2a40-4abd24953621",
-    "Killjoy" : "1e58de9c-4950-5125-93e9-a0aee9f98746",
-    "Cypher" : "117ed9e3-49f3-6512-3ccf-0cada7e3823b",
-    "Sage" : "569fdd95-4d10-43ab-ca70-79becc718b46",
-    "Chamber" : "22697a3d-45bf-8dd7-4fec-84a9e28c69d7",
-    "Omen" : "8e253930-4c05-31dd-1b6c-968525494517",
-    "Brimstone" : "9f0d8ba9-4140-b941-57d3-a7ad57c6b417",
-    "Astra" : "41fb69c1-4189-7b37-f117-bcaf1e96f1bf",
-    "Viper" : "707eab51-4836-f488-046a-cda6bf494859"
-}
 
-list_deulists = {
-    "Jett" : "add6443a-41bd-e414-f6ad-e58d267f4e95",
-    "Reyna" : "a3bfb853-43b2-7238-a4f1-ad90e9e46bcc",
-    "Raze" : "f94c3b30-42be-e959-889c-5aa313dba261",
-    "Yoru" : "7f94d92c-4234-0a36-9646-3a87eb8b5c89",
-    "Phoenix" : "eb93336a-449b-9c1b-0a54-a891f7921d69",
-    "Neon" : "bb2a4828-46eb-8cd1-e765-15848195d751"
-}
+class Agent:
+    """A class to represent a Valorant agent."""
 
-list_initiators = {
-    "Breach" : "5f8d3a7f-467b-97f3-062c-13acf203c006",
-    "Skye" : "6f2a04ca-43e0-be17-7f36-b3908627744d",
-    "Sova" : "320b2a48-4d9b-a075-30f1-1f93a9b638fa",
-    "KAY/O" : "601dbbe7-43ce-be57-2a40-4abd24953621"
-}
+    def __init__(self, name, description, display_icon, developer_name, ability_q, ability_e, ability_c, ability_x, role, uuid):
+        self.name = name
+        self.description = description
+        self.display_icon = display_icon
+        self.developer_name = developer_name
+        self.ability_q = ability_q
+        self.ability_e = ability_e
+        self.ability_c = ability_c
+        self.ability_x = ability_x
+        self.role = role
+        self.uuid = uuid
 
-list_sentinels = {
-    "Killjoy" : "1e58de9c-4950-5125-93e9-a0aee9f98746",
-    "Cypher" : "117ed9e3-49f3-6512-3ccf-0cada7e3823b",
-    "Sage" : "569fdd95-4d10-43ab-ca70-79becc718b46",
-    "Chamber" : "22697a3d-45bf-8dd7-4fec-84a9e28c69d7"
-}
+    def __str__(self):
+        return self.name
 
-list_controllers = {
-    "Omen" : "8e253930-4c05-31dd-1b6c-968525494517",
-    "Brimstone" : "9f0d8ba9-4140-b941-57d3-a7ad57c6b417",
-    "Astra" : "41fb69c1-4189-7b37-f117-bcaf1e96f1bf",
-    "Viper" : "707eab51-4836-f488-046a-cda6bf494859"
-}
+    def __repr__(self):
+        return f"Agent({self.name}, {self.description}, {self.display_icon}, {self.developer_name}, {self.role}, {self.uuid})"
 
-def deulists():
-    return list_deulists
 
-def initiators():
-    return list_initiators
+class Ability:
+    """A class to represent a Valorant agent ability."""
 
-def sentinels():
-    return list_sentinels
+    def __init__(self, name, description, display_icon):
+        self.name = name
+        self.description = description
+        self.display_icon = display_icon
 
-def controllers():
-    return list_controllers
+    def __str__(self):
+        return self.name
 
-def returnAgents(role):
-    if (role == 'deulists'):
-        return list_deulists
-    if (role == 'initiators'):
-        return list_initiators
-    if (role == 'sentinels'):
-        return list_sentinels
-    if (role == 'controllers'):
-        return list_controllers
+    def __repr__(self):
+        return f"Ability({self.name}, {self.description}, {self.display_icon})"
+
+
+class ValAgents:
+    """A class to represent a list of Valorant agents."""
+
+    def __init__(self):
+        self.agents = []
+        self._get_agents()
+
+    def _get_agents(self) -> None:
+        """Retrieves agent data from the Riot Games API."""
+
+        url = "https://valorant-api.com/v1/agents"
+        parameters = {"isPlayableCharacter": "true"}
+
+        response = requests.get(url, params=parameters)
+
+        if response.status_code == 200:
+            data = response.json()["data"]
+            for agent in data:
+                name = agent["displayName"]
+                description = agent["description"]
+                display_icon = agent["displayIcon"]
+                dev_name = agent["developerName"]
+                ability_q = Ability(agent['abilities'][0]['displayName'], agent['abilities']
+                                    [0]['description'], agent['abilities'][0]['displayIcon'])
+                ability_e = Ability(agent['abilities'][1]['displayName'], agent['abilities']
+                                    [1]['description'], agent['abilities'][1]['displayIcon'])
+                ability_c = Ability(agent['abilities'][2]['displayName'], agent['abilities']
+                                    [2]['description'], agent['abilities'][2]['displayIcon'])
+                ability_x = Ability(agent['abilities'][3]['displayName'], agent['abilities']
+                                    [3]['description'], agent['abilities'][3]['displayIcon'])
+                role = agent["role"]["displayName"]
+                uuid = agent["uuid"]
+
+                self.agents.append(Agent(name, description, display_icon, dev_name,
+                                   ability_q, ability_e, ability_c, ability_x, role, uuid))
+
+        else:
+            raise Exception(
+                f"Failed to retrieve agent data from the Riot Games API. Status code: {response.status_code}")
+
+    def get_agents(self) -> list:
+        """Returns a list of Agent objects."""
+
+        return self.agents
+
+    def get_agent(self, name: str) -> Agent:
+        """Returns the agent with the given name."""
+
+        return [agent for agent in self.agents if agent.name.lower() == name.lower()][0]
+
+    def get_agents_by_role(self, role: str) -> list:
+        """Returns a list of agents with the given role."""
+
+        return [agent for agent in self.agents if agent.role.lower() == role.lower()]
+
+    def query_agents_by_name(self, name: str) -> list:
+        """Returns a list of Agent objects whose name contains the given string."""
+
+        return [agent for agent in self.agents if name.lower() in agent.name.lower()] if name else self.agents
+
+    def __getitem__(self, key):
+        return self.agents[key]
+
+    def __len__(self):
+        return len(self.agents)
+
+    def __iter__(self):
+        return iter(self.agents)
+
+    def __str__(self):
+        return str(self.agents)
+
+    def __repr__(self):
+        return f"ValAgents({self.agents})"
